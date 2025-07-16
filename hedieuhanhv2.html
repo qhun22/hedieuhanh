@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Demo</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        font-family: "Quicksand", sans-serif;
+      }
+
+      .quiz-container {
+        background-color: #fff;
+        border-radius: 15px;
+        padding: 20px 25px;
+        max-width: 700px;
+        width: 90%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 1s ease;
+      }
+
+      .question-container {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .question-text {
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+        color: #222;
+      }
+
+      .answers-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .answer-btn {
+        padding: 10px 15px;
+        font-size: 1rem;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: left;
+      }
+
+      .answer-btn:hover {
+        background-color: #f1f1f1;
+        border-color: #aaa;
+      }
+
+      .answer-btn.selected {
+        background-color: #ffd966;
+        border-color: #f1c40f;
+        font-weight: bold;
+      }
+
+      .answer-btn.correct {
+        background-color: #b6e9b1;
+        border-color: #2ecc71;
+        color: #2c3e50;
+      }
+
+      .answer-btn.incorrect {
+        background-color: #f9b3b3;
+        border-color: #e74c3c;
+        color: #2c3e50;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="quiz-container">
+      <div class="question-container">
+        <div class="question-text">
+          Những hệ thống tập tin nào sau đây phù hợp để lưu dữ liệu trên hệ điều
+          hành Windows? (Chọn 2)
+        </div>
+        <div class="answers-container" id="answers"></div>
+      </div>
+    </div>
+
+    <script>
+      const answers = [
+        { text: "FAT32", correct: true },
+        { text: "exFAT", correct: false },
+        { text: "Ext", correct: false },
+        { text: "NTFS", correct: true },
+      ];
+
+      const answersContainer = document.getElementById("answers");
+      const selectedIndexes = new Set();
+
+      answers.forEach((answer, index) => {
+        const button = document.createElement("button");
+        button.className = "answer-btn";
+        button.innerHTML = answer.text;
+
+        button.addEventListener("click", () => {
+          if (button.disabled) return;
+
+          if (selectedIndexes.has(index)) {
+            selectedIndexes.delete(index);
+            button.classList.remove("selected");
+          } else {
+            selectedIndexes.add(index);
+            button.classList.add("selected");
+          }
+
+          if (selectedIndexes.size === 2) {
+            const buttons = answersContainer.querySelectorAll(".answer-btn");
+            answers.forEach((ans, i) => {
+              buttons[i].disabled = true;
+
+              if (ans.correct && selectedIndexes.has(i)) {
+                buttons[i].classList.add("correct");
+              } else if (!ans.correct && selectedIndexes.has(i)) {
+                buttons[i].classList.add("incorrect");
+              } else if (ans.correct && !selectedIndexes.has(i)) {
+                buttons[i].classList.add("correct");
+              }
+
+              buttons[i].classList.remove("selected");
+            });
+          }
+        });
+
+        answersContainer.appendChild(button);
+      });
+    </script>
+  </body>
+</html>

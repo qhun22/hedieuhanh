@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hedieuhanhv3 - Matching Drag & Drop</title>
+    <style>
+      :root {
+        --color-primary: #4a90e2;
+        --color-correct: #28a745;
+        --color-incorrect: #dc3545;
+        --bg-light: #f9f9f9;
+        --bg-card: #ffffff;
+        --font-main: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        font-family: var(--font-main);
+        margin: 0;
+        padding: 20px;
+        background: var(--bg-light);
+      }
+
+      .question-box {
+        background: var(--bg-card);
+        padding: 24px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        max-width: 900px;
+        margin: 40px auto;
+      }
+
+      h2 {
+        font-size: 1.4rem;
+        color: #222;
+        margin-bottom: 16px;
+      }
+
+      img {
+        max-width: 100%;
+        border-radius: 8px;
+        margin: 12px 0;
+        border: 1px solid #ddd;
+      }
+
+      .drop-zone {
+        border: 2px dashed #ccc;
+        padding: 16px;
+        margin: 16px 0;
+        border-radius: 12px;
+        background-color: #fafafa;
+        transition: all 0.3s ease;
+        min-height: 60px;
+        font-weight: 500;
+        color: #333;
+      }
+
+      .drop-zone.correct {
+        border-color: var(--color-correct);
+        background-color: #e9fbe9;
+      }
+
+      .drop-zone.incorrect {
+        border-color: var(--color-incorrect);
+        background-color: #fde9e9;
+      }
+
+      .draggable-answer {
+        background-color: var(--color-primary);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 8px;
+        border-radius: 30px;
+        font-weight: bold;
+        cursor: grab;
+        transition: background 0.3s ease, transform 0.2s;
+        display: inline-block;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .draggable-answer:hover {
+        background-color: #3c7dc0;
+      }
+
+      .draggable-answer:active {
+        transform: scale(0.96);
+      }
+
+      .answer-bank {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+        gap: 12px;
+      }
+
+      @media (max-width: 600px) {
+        .draggable-answer {
+          width: 100%;
+        }
+
+        .question-box {
+          padding: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="question-box">
+      <h2>
+        Khi cài đặt hệ điều hành, người dùng cần khởi động máy tính từ BIOS và
+        thấy thứ tự ưu tiên khởi động từ các thiết bị như hình
+      </h2>
+      <img src="images/c27b1.png" alt="Windows setup image" />
+      <p>
+        <strong
+          >Hãy kéo thả các chức năng người dùng vào mô tả tương ứng.</strong
+        >
+      </p>
+
+      <div class="drop-zone" data-answer="diacd">Thứ tự ưu tiên số 1</div>
+      <div class="drop-zone" data-answer="t2usb">Thứ tự ưu tiên số 2</div>
+      <div class="drop-zone" data-answer="diacung">Thứ tự ưu tiên số 3</div>
+      <div class="drop-zone" data-answer="mang">Thứ tự ưu tiên số 4</div>
+
+      <div class="answer-bank">
+        <div class="draggable-answer" draggable="true" id="diacd">Đĩa CD</div>
+        <div class="draggable-answer" draggable="true" id="t2usb">USB</div>
+        <div class="draggable-answer" draggable="true" id="diacung">
+          Đĩa cứng
+        </div>
+        <div class="draggable-answer" draggable="true" id="mang">Mạng</div>
+      </div>
+    </div>
+
+    <div class="question-box">
+      <h2>Kéo thả chức năng tương ứng vào mô tả</h2>
+
+      <div class="drop-zone" data-answer="process">
+        1. Điều phối việc thực thi của các tiến trình và chương trình
+      </div>
+      <div class="drop-zone" data-answer="interface">
+        2. Cho phép người dùng tương tác với hệ thống máy tính
+      </div>
+      <div class="drop-zone" data-answer="security">
+        3. Bảo vệ hệ thống và dữ liệu khỏi truy cập trái phép
+      </div>
+      <div class="drop-zone" data-answer="filesystem">
+        4. Quản lý dữ liệu và cho phép truy cập tệp tin trên bộ nhớ lưu trữ
+      </div>
+      <div class="drop-zone" data-answer="resource">
+        5. Quản lý và phân phối tài nguyên phần cứng cho các chương trình và
+        tiến trình
+      </div>
+
+      <div class="answer-bank">
+        <div class="draggable-answer" draggable="true" id="process">
+          Quản lý tiến trình
+        </div>
+        <div class="draggable-answer" draggable="true" id="interface">
+          Giao diện người dùng
+        </div>
+        <div class="draggable-answer" draggable="true" id="security">
+          Bảo mật hệ thống
+        </div>
+        <div class="draggable-answer" draggable="true" id="filesystem">
+          Quản lý hệ thống tệp tin
+        </div>
+        <div class="draggable-answer" draggable="true" id="resource">
+          Quản lý tài nguyên
+        </div>
+      </div>
+    </div>
+
+    <div class="question-box">
+      <h2>
+        Hãy kéo thả các công cụ sau tương ứng với chức năng có thể của chúng
+        trên Windows?
+      </h2>
+
+      <div class="drop-zone" data-answer="programs">
+        1. Cài đặt & gỡ bỏ phần mềm
+      </div>
+      <div class="drop-zone" data-answer="disk">
+        2. Thêm một phân vùng mới trên đĩa cứng
+      </div>
+      <div class="drop-zone" data-answer="network">
+        3. Cấu hình mạng (WiFi/Ethernet)
+      </div>
+      <div class="drop-zone" data-answer="task">
+        4. Huỷ một chương trình không thể tắt theo cách thông thường
+      </div>
+      <div class="drop-zone" data-answer="account">
+        5. Thêm tài khoản người dùng
+      </div>
+
+      <div class="answer-bank">
+        <div class="draggable-answer" draggable="true" id="programs">
+          Control Panel/Programs and Feature
+        </div>
+        <div class="draggable-answer" draggable="true" id="disk">
+          Disk Management
+        </div>
+        <div class="draggable-answer" draggable="true" id="network">
+          Network and Internet
+        </div>
+        <div class="draggable-answer" draggable="true" id="task">
+          Task Manager
+        </div>
+        <div class="draggable-answer" draggable="true" id="account">
+          User Account
+        </div>
+      </div>
+    </div>
+
+    <div class="question-box">
+      <h2>
+        Hãy kéo tên các thư mục trong Windows dưới đây vào các ô tương ứng với
+        chức năng của chúng?
+      </h2>
+
+      <div class="drop-zone" data-answer="logs">1. File nhật ký hệ thống</div>
+      <div class="drop-zone" data-answer="temp">
+        2. File tạm trong quá trình cài đặt
+      </div>
+      <div class="drop-zone" data-answer="recycle">
+        3. File đã xoá nhưng chưa bị xoá vĩnh viễn
+      </div>
+      <div class="drop-zone" data-answer="config">4. Chứa Registry và DLL</div>
+      <div class="drop-zone" data-answer="system32">
+        5. Các file hệ thống và thư viện .dll quan trọng
+      </div>
+
+      <div class="answer-bank">
+        <div class="draggable-answer" draggable="true" id="logs">
+          C:\Windows\Logs
+        </div>
+        <div class="draggable-answer" draggable="true" id="temp">
+          C:\Windows\Temp
+        </div>
+        <div class="draggable-answer" draggable="true" id="recycle">
+          C:\$Recycle.Bin
+        </div>
+        <div class="draggable-answer" draggable="true" id="config">
+          C:\Windows\System32\Config
+        </div>
+        <div class="draggable-answer" draggable="true" id="system32">
+          C:\Windows\System32
+        </div>
+      </div>
+    </div>
+
+    <div class="question-box">
+      <h2>
+        Kéo thả các loại giao diện giữa người dùng và máy tính thông qua hệ điều
+        hành tương ứng với mô tả của chúng?
+      </h2>
+
+      <div class="drop-zone" data-answer="gui">
+        1. Tương tác thông qua các menu và các nút nhấn
+      </div>
+      <div class="drop-zone" data-answer="cli">
+        2. Tương tác qua trình thông dịch lệnh
+      </div>
+      <div class="drop-zone" data-answer="syscall">
+        3. Các hàm cho phép tương tác trực tiếp với phần cứng hoặc nhân hệ điều
+        hành ở mức thấp
+      </div>
+
+      <div class="answer-bank">
+        <div class="draggable-answer" draggable="true" id="gui">
+          Giao diện đồ họa
+        </div>
+        <div class="draggable-answer" draggable="true" id="cli">
+          Giao diện dòng lệnh
+        </div>
+        <div class="draggable-answer" draggable="true" id="syscall">
+          Lời gọi hệ thống
+        </div>
+        <div class="draggable-answer" draggable="true" id="syscall">
+          Đĩa Cứng
+        </div>
+      </div>
+    </div>
+
+    <div class="question-box">
+      <h2>
+        Kéo thả các thành phần chức năng của hệ điều hành sau đây vào nhóm phù
+        hợp?
+      </h2>
+
+      <div class="drop-zone" data-answers="core1,core2,core3,core4">
+        1. Các thành phần lõi của hệ điều hành:
+      </div>
+
+      <div class="drop-zone" data-answers="ui1,ui2,ui3,ui4">
+        2. Các thành phần giao tiếp với người sử dụng:
+      </div>
+
+      <div class="answer-bank">
+        <div class="draggable-answer" draggable="true" id="core1">
+          Quản lý thiết bị phần cứng
+        </div>
+        <div class="draggable-answer" draggable="true" id="core2">
+          Quản lý tiến trình và các ứng dụng
+        </div>
+        <div class="draggable-answer" draggable="true" id="core3">Lập lịch</div>
+        <div class="draggable-answer" draggable="true" id="core4">
+          Quản lý bộ nhớ
+        </div>
+
+        <div class="draggable-answer" draggable="true" id="ui1">
+          Giao diện đồ họa
+        </div>
+        <div class="draggable-answer" draggable="true" id="ui2">
+          Giao diện dòng lệnh
+        </div>
+        <div class="draggable-answer" draggable="true" id="ui3">Các API</div>
+        <div class="draggable-answer" draggable="true" id="ui4">
+          Các lời gọi hệ thống
+        </div>
+      </div>
+    </div>
+
+    <div class="question-box">
+      <h2>
+        Kéo thả các loại giao diện giữa người dùng và máy tính thông qua hệ điều
+        hành tương ứng với mô tả của chúng?
+      </h2>
+
+      <div class="drop-zone" data-answer="gui">
+        1. Tương tác thông qua các menu và các nút nhấn
+      </div>
+      <div class="drop-zone" data-answer="cli">
+        2. Tương tác qua trình thông dịch lệnh
+      </div>
+      <div class="drop-zone" data-answer="syscall">
+        3. Các hàm cho phép tương tác trực tiếp với phần cứng hoặc nhân hệ điều
+        hành ở mức thấp
+      </div>
+      <div class="drop-zone" data-answer="api">
+        4. Thường được sử dụng bởi các lập trình viên khi phát triển phần mềm
+      </div>
+
+      <div class="answer-bank">
+        <div class="draggable-answer" draggable="true" id="gui">
+          Giao diện đồ họa
+        </div>
+        <div class="draggable-answer" draggable="true" id="cli">
+          Giao diện dòng lệnh
+        </div>
+        <div class="draggable-answer" draggable="true" id="syscall">
+          Lời gọi hệ thống
+        </div>
+        <div class="draggable-answer" draggable="true" id="api">Các API</div>
+      </div>
+    </div>
+
+    <div class="question-box">
+      <h2>
+        Hãy kéo các hệ điều hành sau đây tương ứng với thiết bị mà chúng được
+        cài đặt?
+      </h2>
+
+      <div class="drop-zone" data-answer="server">
+        1. Hệ điều hành phiên bản Server
+      </div>
+      <div class="drop-zone" data-answer="embedded">
+        2. Hệ điều hành nhúng (Embedded)
+      </div>
+      <div class="drop-zone" data-answer="mobile">
+        3. Hệ điều hành cho thiết bị di động
+      </div>
+      <div class="drop-zone" data-answer="desktop">
+        4. Hệ điều hành phiên bản Desktop
+      </div>
+
+      <div class="answer-bank">
+        <div class="draggable-answer" draggable="true" id="server">Máy chủ</div>
+        <div class="draggable-answer" draggable="true" id="embedded">
+          Bo mạch điều khiển ngôi nhà thông minh
+        </div>
+        <div class="draggable-answer" draggable="true" id="mobile">
+          Điện thoại
+        </div>
+        <div class="draggable-answer" draggable="true" id="desktop">
+          Máy tính cá nhân
+        </div>
+      </div>
+    </div>
+
+    <div class="question-box">
+      <h2>
+        Hãy kéo các thành phần chức năng vào các cột tương ứng với chế độ người
+        dùng (user mode) hoặc chế độ hệ điều hành (kernel mode)?
+      </h2>
+
+      <img src="images/c12b1.png" alt="Chế độ user vs kernel" />
+
+      <div class="drop-zone" data-answers="k1,k2,k3">
+        1) Chế độ hệ điều hành (kernel mode)
+      </div>
+
+      <div class="drop-zone" data-answers="u1,u2,u3">
+        2) Chế độ người dùng (user mode)
+      </div>
+
+      <div class="answer-bank">
+        <div class="draggable-answer" draggable="true" id="k1">
+          Quản lý bộ nhớ
+        </div>
+        <div class="draggable-answer" draggable="true" id="k2">Lập lịch</div>
+        <div class="draggable-answer" draggable="true" id="k3">
+          Điều khiển truyền thông liên tiến trình
+        </div>
+
+        <div class="draggable-answer" draggable="true" id="u1">
+          Chương trình ứng dụng
+        </div>
+        <div class="draggable-answer" draggable="true" id="u2">
+          Trình quản lý thiết bị
+        </div>
+        <div class="draggable-answer" draggable="true" id="u3">
+          Hệ thống tập tin
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const answers = document.querySelectorAll(".draggable-answer");
+      const zones = document.querySelectorAll(".drop-zone");
+
+      // Enable drag + click to return
+      answers.forEach((ans) => {
+        ans.addEventListener("dragstart", (e) => {
+          e.dataTransfer.setData("text/plain", ans.id);
+        });
+
+        ans.addEventListener("click", () => {
+          const closestBox = ans.closest(".question-box");
+          const bank = closestBox.querySelector(".answer-bank");
+          if (ans.parentElement !== bank) {
+            bank.appendChild(ans);
+            ans.style.border = "none";
+          }
+        });
+      });
+
+      // Handle drop zones (support both data-answer and data-answers)
+      zones.forEach((zone) => {
+        zone.addEventListener("dragover", (e) => e.preventDefault());
+
+        zone.addEventListener("drop", (e) => {
+          e.preventDefault();
+          const draggedId = e.dataTransfer.getData("text/plain");
+          const draggedEl = document.getElementById(draggedId);
+          const closestBox = zone.closest(".question-box");
+          const bank = closestBox.querySelector(".answer-bank");
+
+          // Nếu đáp án đang nằm trong vùng khác → đưa về ngân hàng
+          if (
+            draggedEl.parentElement &&
+            draggedEl.parentElement.classList.contains("drop-zone")
+          ) {
+            draggedEl.parentElement.classList.remove("correct", "incorrect");
+          }
+
+          // Thêm vào drop-zone (nhiều đáp án cùng 1 vùng)
+          zone.appendChild(draggedEl);
+
+          // Kiểm tra đúng/sai (hỗ trợ cả data-answer và data-answers)
+          const validIds = zone.dataset.answers
+            ? zone.dataset.answers.split(",")
+            : [zone.dataset.answer]; // single-answer fallback
+
+          if (validIds.includes(draggedId)) {
+            draggedEl.style.border = "2px solid var(--color-correct)";
+            zone.classList.add("correct");
+            zone.classList.remove("incorrect");
+          } else {
+            draggedEl.style.border = "2px solid var(--color-incorrect)";
+            zone.classList.add("incorrect");
+            zone.classList.remove("correct");
+          }
+        });
+      });
+      // Shuffle answers inside each .answer-bank on page load
+      function shuffleAnswerBanks() {
+        const banks = document.querySelectorAll(".answer-bank");
+        banks.forEach((bank) => {
+          const answers = Array.from(bank.children);
+          for (let i = answers.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [answers[i], answers[j]] = [answers[j], answers[i]];
+          }
+          answers.forEach((el) => bank.appendChild(el));
+        });
+      }
+
+      window.addEventListener("DOMContentLoaded", shuffleAnswerBanks);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="images/getqhun22.png" />
+    <link rel="apple-touch-icon" href="images/getqhun22.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>qhun22</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        font-family: "Quicksand", sans-serif;
+      }
+
+      .quiz-container {
+        background-color: #fff;
+        border-radius: 15px;
+        padding: 20px 25px;
+        max-width: 700px;
+        width: 90%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 1s ease;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 25px;
+        font-size: 1.8rem;
+      }
+
+      .question-container {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .question-text {
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+        color: #222;
+      }
+
+      .answers-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .answer-btn {
+        padding: 10px 15px;
+        font-size: 1rem;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: left;
+      }
+
+      .answer:hover {
+        background-color: #ffe6f0;
+        transform: scale(0.5);
+      }
+      .answer-btn:hover {
+        background-color: #f1f1f1;
+        border-color: #aaa;
+      }
+
+      .answer-btn.selected {
+        background-color: #ffd966;
+        border-color: #f1c40f;
+        font-weight: bold;
+      }
+
+      .answer-btn.correct {
+        background-color: #b6e9b1;
+        border-color: #2ecc71;
+        color: #2c3e50;
+      }
+
+      .answer-btn.incorrect {
+        background-color: #f9b3b3;
+        border-color: #e74c3c;
+        color: #2c3e50;
+      }
+
+      .submit-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .submit-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        background-color: #3498db;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .submit-btn:hover {
+        background-color: #2980b9;
+      }
+
+      .result {
+        margin-top: 20px;
+        font-size: 1.2rem;
+        color: #2c3e50;
+      }
+
+      .reset-btn {
+        margin-top: 15px;
+        background-color: #27ae60;
+      }
+
+      .reset-btn:hover {
+        background-color: #1e8449;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .quiz-container {
+          padding: 15px 20px;
+        }
+
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        .answer-btn {
+          font-size: 0.95rem;
+        }
+
+        .submit-btn {
+          width: 100%;
+        }
+
+        .result {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="quiz-container">
+      <h1>Tuan 1</h1>
+      <div id="questions"></div>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          question:
+            " Kiến trúc hệ điều hành Linux dưới đây thuộc kiểu nào?<br><img src='images/c4b1.png' style='max-width: 100%; height: auto;'>",
+          answers: [
+            { text: "Kết hợp ( Hybrid )", correct: false },
+            { text: "Nguyên khối ( Monolithic )", correct: true },
+            { text: "Phân lớp ( Layered )", correct: false },
+            { text: "Mô-đun hóa (Modules)", correct: false },
+          ],
+        },
+        {
+          question:
+            //   câu hỏi có ảnh
+            "Cho kiến trúc hệ điều hành Windows dưới đây, thành phần Task Scheduler thuộc thành phần nào của hệ điều hành? <br><img src='images/c5b1.png' style='max-width: 100%; height: auto;'>",
+          answers: [
+            { text: "System processes", correct: false },
+            { text: "Service processes", correct: true },
+            { text: "User processes", correct: false },
+            { text: "Kernel", correct: false },
+          ],
+        },
+        {
+          question:
+            //   câu hỏi có ảnh
+            "Cho kiến trúc hệ điều hành Windows dưới đây, bộ lập lịch thuộc thành phần nào?<br><img src='images/c6b1.png' style='max-width: 100%; height: auto;'>",
+          answers: [
+            { text: "System processes", correct: false },
+            { text: "Kernel", correct: true },
+            { text: "Devices driver", correct: false },
+            { text: "Subsystem DLL", correct: false },
+          ],
+        },
+        {
+          question:
+            "Trong quá trình cài đặt hệ điều hành, nếu người dùng chọn nhầm vào phân vùng logic (Logical Partition) thì điều gì sẽ xảy ra?",
+          answers: [
+            {
+              text: "Hệ điều hành không nhận các thiết bị như chuột, bàn phím",
+              correct: false,
+            },
+            {
+              text: "Không thể khởi động được hệ điều hành từ phân vùng đã cài.",
+              correct: true,
+            },
+            {
+              text: "Không thể truy cập được vào các phân vùng chính khi sử dụng hệ điều hành",
+              correct: false,
+            },
+            {
+              text: "Hệ điều hành khi chạy sẽ hay bị lỗi.",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question:
+            "Để quản lý các phân vùng của ổ cứng trên Windows sử dụng công cụ nào?",
+          //    đáp án có ảnh
+          answers: [
+            {
+              text: "<img src='images/c8b1a.png' alt='' style='height: 60px;'>",
+              correct: false,
+            },
+            {
+              text: "<img src='images/c8b1b.png' alt='' style='height: 60px;'>",
+              correct: false,
+            },
+            {
+              text: "<img src='images/c8b1c.png' alt='' style='height: 60px;'>",
+              correct: false,
+            },
+            {
+              text: "<img src='images/c8b1d.png' alt='' style='height: 60px;'>",
+              correct: true,
+            },
+          ],
+        },
+        {
+          question:
+            //   câu hỏi có ảnh
+            "Người dùng sẽ chọn chức năng nào trong vùng màu đỏ để xóa phân vùng và toàn bộ dữ liệu trong chương trình Disk Management?<br><img src='images/c9b1.png' style='max-width: 100%; height: auto;'>",
+          answers: [
+            { text: "Format", correct: false },
+            { text: "Delete Volume", correct: true },
+            { text: "Shrink Volume", correct: false },
+            { text: "Explore", correct: false },
+          ],
+        },
+        {
+          question:
+            "Đâu là mô tả đúng nhất về hệ điều hành (Operating System)?",
+          answers: [
+            {
+              text: "Phần mềm hệ thống quản lý tài nguyên của hệ thống máy tính (phần cứng và phần mềm), giữ vai trò trung gian giữa phần cứng và phần mềm giúp máy tính hoạt động hiệu quả.",
+              correct: true,
+            },
+            {
+              text: "Phần mềm quản lý các chương trình ứng dụng người dùng và các dịch vụ giúp người sử dụng làm việc dễ dàng .",
+              correct: false,
+            },
+            {
+              text: "Phần mềm khởi động máy tính được nạp sẵn trong ROM và chứa các lệnh kiểm tra cấu hình hệ thống máy tính .",
+              correct: false,
+            },
+            {
+              text: "Phần mềm chạy ẩn bên trong máy tính để quản lý thiết bị phần cứng nhằm giúp chúng hoạt động nhịp nhàng.",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question:
+            "Đâu là điểm khác biệt của hệ điều hành thời gian thực (Real time OS) so với các hệ điều hành khác (hệ điều hành trên máy tính, điện thoại)?",
+          answers: [
+            {
+              text: "Hệ điều hành có cơ chế phản hồi nhanh và đúng thời hạn với các sự kiện yêu cầu thời gian thực.",
+              correct: true,
+            },
+            {
+              text: "Hệ điều hành có tốc độ xử lý cao nhất.",
+              correct: false,
+            },
+            {
+              text: "Hệ điều hành được sử dụng cho các máy tính cá nhân.",
+              correct: false,
+            },
+            {
+              text: "Hệ điều hành được sử dụng cho các thiết bị di động.",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question: "Đâu là đặc điểm chính của hệ điều hành nhúng?",
+          answers: [
+            {
+              text: "Không hỗ trợ nhiều chương trình chạy đồng thời",
+              correct: false,
+            },
+            {
+              text: "Thường có kích thước nhỏ, được tối ưu cho thiết bị chuyên dụng",
+              correct: true,
+            },
+            {
+              text: "Được tối ưu để chạy trên máy tính cá nhân",
+              correct: false,
+            },
+            {
+              text: "Luôn không có giao diện đồ họa",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question: "Đâu không phải là chức năng của hệ điều hành?",
+          answers: [
+            {
+              text: "Quản lý tài nguyên phần cứng",
+              correct: false,
+            },
+            {
+              text: "Cung cấp các dịch vụ cho chương trình ứng dụng hoạt động",
+              correct: false,
+            },
+            {
+              text: "Có thể cung cấp giao diện đồ họa cho người dùng",
+              correct: false,
+            },
+            {
+              text: "Biên dịch chương trình phần mềm",
+              correct: true,
+            },
+            {
+              text: "Quản lý các chương trình phần mềm",
+              correct: false,
+            },
+          ],
+        },
+
+        {
+          question:
+            //   câu hỏi có ảnh
+            "Nếu muốn đặt mật khẩu người dùng cần sử dụng chức năng nào trong Control Panel trên Windows <br><img src='images/c17b1.png' style='max-width: 100%; height: auto;'>",
+          answers: [
+            { text: "Network and Internet", correct: false },
+            { text: "User Accounts", correct: true },
+            { text: "Programs", correct: false },
+            { text: "System and Security", correct: false },
+          ],
+        },
+        {
+          question:
+            //   câu hỏi có ảnh
+            "Khi thực hiện Fomat (định dạng) một phân vùng của ổ cứng cần lưu ý điều gì?<br><img src='images/c19b1.png' style='max-width: 100%; height: auto;'>",
+          answers: [
+            { text: "Phải chọn chức năng quick format", correct: false },
+            {
+              text: "Toàn bộ dữ liệu trong phân vùng sẽ mất sạch",
+              correct: true,
+            },
+            { text: "Kích thước phân vùng phải lớn hơn 20GB", correct: false },
+            { text: "Tên phân vùng phải đặt mặc định", correct: false },
+          ],
+        },
+        {
+          question:
+            //   câu hỏi có ảnh
+            " Người dùng chọn menu được đánh dấu màu đỏ trong chức năng Disk Management để làm gì? <br><img src='images/c23b1.png' style='max-width: 100%; height: auto;'>",
+          answers: [
+            {
+              text: "Xóa phân vùng và toàn bộ dữ liệu trong nó",
+              correct: false,
+            },
+            { text: "Tạo và định dạng một phân vùng mới", correct: true },
+            { text: "Điều chỉnh kích thước phân vùng ", correct: false },
+            { text: "bbbbbbbbbb", correct: false },
+          ],
+        },
+        // cach cach cach
+
+        // cach cach cach
+      ];
+
+      let userAnswers = [];
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      function initQuiz() {
+        shuffleArray(questions);
+        const questionsContainer = document.getElementById("questions");
+        questionsContainer.innerHTML = "";
+
+        questions.forEach((q, qIndex) => {
+          const questionDiv = document.createElement("div");
+          questionDiv.className = "question-container";
+
+          // Nếu là câu input thì không shuffle answers
+          if (!q.type && !q.multi) {
+            shuffleArray(q.answers);
+          }
+
+          questionDiv.innerHTML = `
+      <div class="question-text">${qIndex + 1}. ${q.question}</div>
+      <div class="answers-container"></div>
+    `;
+
+          const answersContainer =
+            questionDiv.querySelector(".answers-container");
+
+          // Câu dạng nhập lệnh
+          if (q.type === "input") {
+            const input = document.createElement("input");
+            input.type = "text";
+            input.placeholder = "Nhập lệnh...";
+            input.className = "answer-btn";
+
+            const checkBtn = document.createElement("button");
+            checkBtn.innerText = "Kiểm tra";
+            checkBtn.className = "submit-btn";
+
+            const resultText = document.createElement("p");
+            resultText.className = "result";
+
+            checkBtn.addEventListener("click", () => {
+              const userInput = input.value.trim().toLowerCase();
+              if (userInput === q.correctAnswer.toLowerCase()) {
+                resultText.textContent = "✅ Chính xác!";
+                resultText.style.color = "green";
+              } else {
+                resultText.textContent =
+                  "❌ Sai rồi. Đáp án đúng: " + q.correctAnswer;
+                resultText.style.color = "red";
+              }
+              input.disabled = true;
+              checkBtn.disabled = true;
+            });
+
+            answersContainer.appendChild(input);
+            answersContainer.appendChild(checkBtn);
+            answersContainer.appendChild(resultText);
+          }
+
+          // Câu chọn nhiều đáp án
+          else if (q.multi === true) {
+            const selectedIndexes = new Set();
+            const checkBtn = document.createElement("button");
+            checkBtn.innerText = "Kiểm tra";
+            checkBtn.className = "submit-btn";
+            const resultText = document.createElement("p");
+            resultText.className = "result";
+
+            q.answers.forEach((answer, aIndex) => {
+              const button = document.createElement("button");
+              button.className = "answer-btn";
+              button.innerHTML = answer.text;
+
+              button.addEventListener("click", () => {
+                if (selectedIndexes.has(aIndex)) {
+                  selectedIndexes.delete(aIndex);
+                  button.classList.remove("selected");
+                } else {
+                  selectedIndexes.add(aIndex);
+                  button.classList.add("selected");
+                }
+              });
+
+              answersContainer.appendChild(button);
+            });
+
+            checkBtn.addEventListener("click", () => {
+              const buttons = answersContainer.querySelectorAll(".answer-btn");
+
+              q.answers.forEach((answer, i) => {
+                buttons[i].disabled = true;
+                if (answer.correct && selectedIndexes.has(i)) {
+                  buttons[i].classList.add("correct");
+                } else if (!answer.correct && selectedIndexes.has(i)) {
+                  buttons[i].classList.add("incorrect");
+                } else if (answer.correct && !selectedIndexes.has(i)) {
+                  buttons[i].classList.add("correct");
+                }
+              });
+
+              resultText.textContent = `✅ Đã kiểm tra`;
+              resultText.style.color = "#2c3e50";
+              checkBtn.disabled = true;
+            });
+
+            answersContainer.appendChild(checkBtn);
+            answersContainer.appendChild(resultText);
+          }
+
+          // Câu chọn 1 đáp án (mặc định)
+          else {
+            q.answers.forEach((answer) => {
+              const button = document.createElement("button");
+              button.className = "answer-btn";
+              button.innerHTML = answer.text;
+              button.addEventListener("click", () => {
+                selectAnswer(qIndex, answer);
+                showImmediateResult(qIndex, answer);
+              });
+              answersContainer.appendChild(button);
+            });
+          }
+
+          questionsContainer.appendChild(questionDiv);
+        });
+
+        // Ẩn nút nộp bài (nếu có)
+        const submitBtn = document.querySelector(".submit-btn");
+        if (submitBtn) submitBtn.style.display = "none";
+      }
+
+      function selectAnswer(qIndex, answer) {
+        const questionDiv = document.querySelectorAll(".question-container")[
+          qIndex
+        ];
+        const buttons = questionDiv.querySelectorAll(".answer-btn");
+
+        buttons.forEach((btn) => btn.classList.remove("selected"));
+
+        const selectedIndex = questions[qIndex].answers.findIndex(
+          (a) => a === answer
+        );
+
+        if (selectedIndex !== -1) {
+          buttons[selectedIndex].classList.add("selected");
+          userAnswers[qIndex] = answer;
+        }
+      }
+
+      function showImmediateResult(qIndex, selectedAnswer) {
+        const questionDiv = document.querySelectorAll(".question-container")[
+          qIndex
+        ];
+        const buttons = questionDiv.querySelectorAll(".answer-btn");
+
+        const answers = questions[qIndex].answers;
+
+        buttons.forEach((btn, i) => {
+          btn.disabled = true;
+
+          if (answers[i].correct) {
+            btn.classList.add("correct");
+          } else if (answers[i] === selectedAnswer) {
+            btn.classList.add("incorrect");
+          }
+        });
+      }
+
+      initQuiz();
+    </script>
+  </body>
+</html>

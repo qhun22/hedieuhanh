@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang Chọn Liên Kết</title>
+    <style>
+      :root {
+        --color-primary: #4a90e2;
+        --color-hover: #357abd;
+        --bg: #f2f7ff;
+        --font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: var(--font);
+        background-color: var(--bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      .container {
+        text-align: center;
+        background: white;
+        padding: 40px 30px;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 90%;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 24px;
+        color: #333;
+      }
+
+      .link-button {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        margin: 12px 0;
+        background-color: var(--color-primary);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: bold;
+        transition: background 0.3s ease, transform 0.2s;
+      }
+
+      .link-button:hover {
+        background-color: var(--color-hover);
+        transform: translateY(-2px);
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 24px 16px;
+        }
+
+        h1 {
+          font-size: 1.4rem;
+        }
+
+        .link-button {
+          font-size: 0.95rem;
+          padding: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Chọn trang bạn muốn đến</h1>
+      <a href="hedieuhanhv1.html" class="link-button">Trắc nghiệm</a>
+      <a href="hedieuhanhv2.html" class="link-button">Nhiều đáp án</a>
+      <a href="hedieuhanhv3.html" class="link-button">Kéo thả</a>
+    </div>
+  </body>
+</html>
